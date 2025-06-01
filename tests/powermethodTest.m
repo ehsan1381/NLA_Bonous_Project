@@ -8,4 +8,18 @@ assert(norm(delta) < tolerance);
 
 
 %% Case_2_Another_one_from_the_book
-% in page 146
+n = 10;
+A = zeros(n);
+v = [1:n].';
+for i=1:n
+  for j=1:n
+    A(i, j) = i+j-1;
+  end
+end
+tolerance = 1e-5;
+[estimatedEigenVal, estimatedEigenVec] = powermethod(A, v, tolerance);
+delta = A * estimatedEigenVec - estimatedEigenVal * estimatedEigenVec;
+assert(norm(delta) < tolerance);
+
+
+
