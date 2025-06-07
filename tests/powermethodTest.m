@@ -2,7 +2,7 @@
 A = [-100 3 5; 7  6 5; 7 8 9];
 v = [1;1;1];
 tolerance = 1e-5;
-[estimatedEigenVal, estimatedEigenVec] = powermethod(A, v, tolerance);
+[estimatedEigenVal, estimatedEigenVec, ~] = powermethod(A, v, tolerance);
 delta = A * estimatedEigenVec - estimatedEigenVal * estimatedEigenVec;
 assert(norm(delta) < tolerance);
 
@@ -17,9 +17,34 @@ for i=1:n
   end
 end
 tolerance = 1e-5;
-[estimatedEigenVal, estimatedEigenVec] = powermethod(A, v, tolerance);
+[estimatedEigenVal, estimatedEigenVec, ~] = powermethod(A, v, tolerance);
 delta = A * estimatedEigenVec - estimatedEigenVal * estimatedEigenVec;
 assert(norm(delta) < tolerance);
 
+
+%% Case_3_different_input_vectors
+n = 10;
+A = zeros(n);
+for i=1:n
+  for j=1:n
+    A(i, j) = i+j-1;
+  end
+end
+tolerance = 1e-10;
+for i=1:50
+  v = randi(100) * rand([n, 1])
+  [estimatedEigenVal, estimatedEigenVec, ~] = powermethod(A, v, tolerance);
+  delta = A * estimatedEigenVec - estimatedEigenVal * estimatedEigenVec;
+  assert(norm(delta) < tolerance);
+end % for
+
+A = [-100 3 5; 7  6 5; 7 8 9];
+tolerance = 1e-10;
+for i=1:50
+  v = randi(100) * rand([3, 1])
+  [estimatedEigenVal, estimatedEigenVec, ~] = powermethod(A, v, tolerance);
+  delta = A * estimatedEigenVec - estimatedEigenVal * estimatedEigenVec;
+  assert(norm(delta) < tolerance);
+end % for
 
 
