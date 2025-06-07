@@ -1,10 +1,19 @@
 function [eigenVal, eigenVec] = powermethod(inputMat, inputVec, tolerance, MAXITER)
+  % argument validation
   arguments
     inputMat double {mustBeNonempty, mustBeFinite}
     inputVec {mustBeNonempty, mustBeFinite, mustBeVector}
-    tolerance (1, 1) double {mustBeFloat}
+    tolerance (1, 1) double {mustBeFloat, mustBePositive}
     MAXITER (1, 1) int64 {mustBeNumeric} = 1e3
   end % argyments
+
+  % more argument validation
+  [nRows, nColumns] = size(inputMat);
+  assert(nRows == nColumns, "Matrix is not square");
+
+  [vecSize, ~] = size(inputVec);
+  assert(nRows == vecSize, "Vector and matrix do not match");
+
 
 
   V1 = inputMat * inputVec;
