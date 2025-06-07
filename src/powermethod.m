@@ -1,10 +1,10 @@
-function [eigenVal, eigenVec] = powermethod(inputMat, inputVec, tolerance, MAXITER)
+function [eigenVal, eigenVec, miuApproxVec] = powermethod(inputMat, inputVec, tolerance, MAXITER)
   % argument validation
   arguments
     inputMat double {mustBeNonempty, mustBeFinite}
     inputVec {mustBeNonempty, mustBeFinite, mustBeVector}
     tolerance (1, 1) double {mustBeFloat, mustBePositive}
-    MAXITER (1, 1) int64 {mustBeNumeric} = 1e3
+    MAXITER (1, 1) int64 {mustBeNumeric} = 5e1
   end % argyments
 
   % more argument validation
@@ -14,8 +14,6 @@ function [eigenVal, eigenVec] = powermethod(inputMat, inputVec, tolerance, MAXIT
   [vecSize, ~] = size(inputVec);
   assert(nRows == vecSize, "Vector and matrix do not match");
 
-
-
   V1 = inputMat * inputVec;
   miu1 = largestelement(V1);
   V1 = 1/miu1 * V1;
@@ -24,7 +22,13 @@ function [eigenVal, eigenVec] = powermethod(inputMat, inputVec, tolerance, MAXIT
   miu2 = largestelement(V2);
   V2 = 1/miu2 * V2;
 
-  counter = 1;
+  % initializing some variables
+  miuApproxVec = zeros([MAXITER + 1, 1]);
+  lastMiuDiff = abs(miu2 - miu1);
+
+  miuApproxVec([1, 2]) = [miu1, miu2];
+
+  counter = 3;
   while (abs(miu2 - miu1) > tolerance) & (counter <= MAXITER)
     V1 = inputMat * V2;
     miu1 = largestelement(V1);
@@ -34,10 +38,17 @@ function [eigenVal, eigenVec] = powermethod(inputMat, inputVec, tolerance, MAXIT
     miu2 = largestelement(V2);
     V2 = 1/miu2 * V2;
 
-    counter = counter + 1;
+    % assigning here so that if algorithm
+    % fails passed this point, progress is not list
+    eigenVal = miu2;
+    eigenVec = V2;
+
+    miuApproxVec([counter, counter + 1]) = [miu1, miu2];
+    assert(abs(miu2 - miu1) <= lastMiuDiff, "Algorithm is not converging");
+    lastMiuDiff = abs(miu2 - miu1);
+
+    counter = counter + 2;
   end % while
-  eigenVal = miu2;
-  eigenVec = V2;
 
 end % function powermethod
 
