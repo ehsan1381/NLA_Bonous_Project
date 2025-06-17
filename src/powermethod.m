@@ -24,7 +24,6 @@ function [eigenVal, eigenVec, miuApproxVec] = powermethod(inputMat, inputVec, to
 
   % initializing some variables
   miuApproxVec = zeros([MAXITER + 1, 1]);
-  lastMiuDiff = abs(miu2 - miu1);
 
   miuApproxVec([1, 2]) = [miu1, miu2];
 
@@ -44,8 +43,6 @@ function [eigenVal, eigenVec, miuApproxVec] = powermethod(inputMat, inputVec, to
     eigenVec = V2;
 
     miuApproxVec([counter, counter + 1]) = [miu1, miu2];
-    assert(abs(miu2 - miu1) <= lastMiuDiff, "Algorithm is not converging");
-    lastMiuDiff = abs(miu2 - miu1);
 
     counter = counter + 2;
   end % while

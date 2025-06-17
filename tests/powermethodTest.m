@@ -41,7 +41,7 @@ end % for
 A = [-100 3 5; 7  6 5; 7 8 9];
 tolerance = 1e-10;
 for i=1:50
-  v = randi(100) * rand([3, 1])
+  v = randi(100) * rand([3, 1]);
   [estimatedEigenVal, estimatedEigenVec, ~] = powermethod(A, v, tolerance);
   delta = A * estimatedEigenVec - estimatedEigenVal * estimatedEigenVec;
   assert(norm(delta) < tolerance);
