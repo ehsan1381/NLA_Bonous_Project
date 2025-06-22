@@ -11,7 +11,7 @@ the program with the given starting vector of the test matrix from the book and 
 value satisfies the equation of eigenvectors and values within a certain tolerance. \
 In the second test we do the same thing with a different matrix and starting vector. \
 In the third test we take the second matrix but submit random starting vectors to test the program
-for convergence and tolerance of approxiamtions.\
+for convergence and tolerance of approxiamtions.
 
 # A bug found in the code
 In one of the versions of this repository, a certain input vector in the last test would result in
@@ -24,5 +24,5 @@ consistently in the margin of tolerance. \
 In addition to these tests, the program is capable of detecting input errors, and certain exceptions
 of underflow and overflow. \
 This specific implementation is not loopless. This program could, theoretically, be written in a
-loopless fashion, yet since the algorithm is iterative in its nature, a loppless implementation
+loopless fashion, yet since the algorithm is iterative in its nature, a loopless implementation
 would raise memory and CPU load of the program.
